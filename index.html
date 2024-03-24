@@ -9,7 +9,7 @@
     <link href="./style/mermaid.css" rel="stylesheet" />
   </head>
   <body x-data="{ urlParams: new URLSearchParams(window.location.search) }">
-    <div x-show="!urlParams.has('videogameId') && !urlParams.has('characterId')">
+    <template x-if="!urlParams.has('videogameId') && !urlParams.has('characterId')">
       <div class="p-8 bg-slate-800 flex flex-col gap-8">
         <div>
           <h1 class="text-4xl text-slate-200 font-bold">Start.gg Data Viewer</h1>
@@ -23,13 +23,13 @@
           <div id="characters-wrapper"></div>
         </div>
       </div>
-    </div>
+    </template>
 
     <!-- 
       Videogame profile page
      -->
 
-    <div id="page-videogame" x-show="urlParams.has('videogameId') && !urlParams.has('characterId')">
+    <template x-if="urlParams.has('videogameId') && !urlParams.has('characterId')">
       <div
         x-data="{ 
           async getMatchingVideogame() { 
@@ -39,7 +39,7 @@
       >
         <div class="p-8 bg-slate-800 flex flex-col gap-8">
           <div class="flex gap-4">
-            <a href="/startgg-data-viewer">
+            <a href="?">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-tabler icon-tabler-arrow-left"
@@ -60,6 +60,7 @@
             </a>
             <h2
               x-text="(await getMatchingVideogame()).displayName"
+              x-if="urlParams.has('videogameId') && !urlParams.has('characterId')"
               class="text-4xl text-slate-200 font-bold"
             ></h2>
           </div>
@@ -87,13 +88,13 @@
           </div>
         </div>
       </div>
-    </div>
+    </template>
 
     <!-- 
       Character profile page
      -->
 
-    <div id="page-character" x-show="urlParams.has('characterId') && !urlParams.has('videogameId')">
+    <template x-if="urlParams.has('characterId') && !urlParams.has('videogameId')">
       <div
         x-data="{ 
           async getMatchingCharacter() { 
@@ -103,7 +104,7 @@
       >
         <div class="p-8 bg-slate-800 flex flex-col gap-8">
           <div class="flex gap-4">
-            <a href="/startgg-data-viewer">
+            <a href="?">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-tabler icon-tabler-arrow-left"
@@ -151,7 +152,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </body>
 
   <script type="module">
