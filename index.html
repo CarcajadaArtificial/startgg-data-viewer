@@ -19,10 +19,11 @@
   </body>
   <script type="module">
     import { Grid, html } from 'https://unpkg.com/gridjs?module';
-    import videogames from './data/videogames.json' with { type: 'json' };
-    import characters from './data/characters.json' with { type: 'json' };
 
-    let filteredCharacters = characters.map((character) => {
+    let videogames = await (await fetch('./data/videogames.json')).json();
+    let characters = await (await fetch('./data/characters.json')).json();
+
+    characters = characters.map((character) => {
       const videogameMatch = videogames.filter((videogame) => videogame.id === character.videogameId);
       character.videogameName = videogameMatch[0] && videogameMatch[0].name ? videogameMatch[0].name : undefined;
       delete character.videogameId;
@@ -68,7 +69,7 @@
 
     new Grid({
       columns: characterHeaders,
-      data: extractPropertyValues(filteredCharacters, characterHeaders.map(header => header.name)),
+      data: extractPropertyValues(characters, characterHeaders.map(header => header.name)),
       ...gridConfig
     }).render(document.getElementById('characters-wrapper'));
   </script>

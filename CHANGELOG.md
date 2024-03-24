@@ -1,5 +1,5 @@
 # Changelog
 
-## v0.0.2
+## v0.0.3
 
-- Moved project out of the `src/` directory for github pages.
+- Fixed JS imports.
