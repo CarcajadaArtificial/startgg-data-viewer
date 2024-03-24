@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Start.gg Data Viewer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <link href="/style/mermaid.css" rel="stylesheet" />
   </head>
-  <body class="p-8 flex flex-col gap-8">
+  <body class="p-8 flex flex-col gap-8 bg-slate-400">
+    <div>
+      <h1 class="text-4xl font-bold">Start.gg Data Viewer</h1>
+    </div>
     <div>
       <h2 class="text-2xl font-bold">Videogames</h2>
       <div id="videogames-wrapper"></div>
@@ -44,6 +47,15 @@
       search: true,
       sort: true,
       autoWidth: false,
+      className: {
+        tbody: 'bg-slate-200',
+        th: 'bg-slate-100',
+        search: 'bg-slate-100',
+        paginationButton: 'bg-slate-100',
+        paginationButtonNext: 'bg-slate-100',
+        paginationButtonCurrent: 'bg-slate-100',
+        paginationButtonPrev: 'bg-slate-100',
+      },
       pagination: {
         limit: 8,
       },
