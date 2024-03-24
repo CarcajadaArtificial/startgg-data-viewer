@@ -6,7 +6,7 @@
     <title>Start.gg Data Viewer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
-    <link href="/style/mermaid.css" rel="stylesheet" />
+    <link href="./style/mermaid.css" rel="stylesheet" />
   </head>
   <body x-data="{ urlParams: new URLSearchParams(window.location.search) }">
     <div x-show="!urlParams.has('videogameId') && !urlParams.has('characterId')">
@@ -39,7 +39,7 @@
       >
         <div class="p-8 bg-slate-800 flex flex-col gap-8">
           <div class="flex gap-4">
-            <a href="/">
+            <a href="/startgg-data-viewer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-tabler icon-tabler-arrow-left"
@@ -75,7 +75,7 @@
           <div class="flex flex-wrap gap-8">
             <template x-for="imageObject in (await getMatchingVideogame()).images">
               <div class="p-4 flex-1 bg-slate-200 rounded-md flex flex-col">
-                <img class="pb-4 "x-bind:src="imageObject.url" alt="">
+                <img class="pb-4" x-bind:src="imageObject.url" alt="" />
                 <template x-for="(imgValue, imgIndex) in imageObject">
                   <div class="flex gap-4" x-show="!['url'].includes(imgIndex)">
                     <span class="text-lg font-bold" x-text="imgIndex"></span>
@@ -103,7 +103,7 @@
       >
         <div class="p-8 bg-slate-800 flex flex-col gap-8">
           <div class="flex gap-4">
-            <a href="/">
+            <a href="/startgg-data-viewer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-tabler icon-tabler-arrow-left"
@@ -139,7 +139,7 @@
           <div class="flex flex-wrap gap-8">
             <template x-for="imageObject in (await getMatchingCharacter()).images">
               <div class="p-4 flex-1 bg-slate-200 rounded-md flex flex-col">
-                <img class="pb-4 "x-bind:src="imageObject.url" alt="">
+                <img class="pb-4" x-bind:src="imageObject.url" alt="" />
                 <template x-for="(imgValue, imgIndex) in imageObject">
                   <div class="flex gap-4" x-show="!['url'].includes(imgIndex)">
                     <span class="text-lg font-bold" x-text="imgIndex"></span>
@@ -153,6 +153,7 @@
       </div>
     </div>
   </body>
+
   <script type="module">
     import { Grid, html } from 'https://unpkg.com/gridjs?module';
     const videogames = await (await fetch('./data/videogames.json')).json();
