@@ -8,10 +8,12 @@
   padding: 0;
 }
 .gridjs-footer button:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
 }
+tr.gridjs-tr:hover td.gridjs-td,
+th.gridjs-th:hover,
 .gridjs-footer button:not(:disabled):hover {
-  opacity: 0.65;
+  opacity: 0.85;
 }
 .gridjs-temp {
   position: relative;
@@ -77,11 +79,6 @@ input.gridjs-input {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-}
-.gridjs-pagination .gridjs-pages button:focus {
-  border-right: 1px solid #d2d6dc;
-  margin-right: -1px;
-  position: relative;
 }
 .gridjs-pagination .gridjs-pages button:hover {
   outline: none;
@@ -175,9 +172,6 @@ th.gridjs-th {
   user-select: none;
   vertical-align: middle;
   white-space: nowrap;
-}
-th.gridjs-th:hover {
-  opacity: 0.65;
 }
 th.gridjs-th .gridjs-th-content {
   float: left;

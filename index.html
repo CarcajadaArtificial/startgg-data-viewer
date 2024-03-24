@@ -1,88 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-slate-800">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Start.gg Data Viewer</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <link href="/style/mermaid.css" rel="stylesheet" />
   </head>
-  <body class="p-8 flex flex-col gap-8 bg-slate-400">
-    <div>
-      <h1 class="text-4xl font-bold">Start.gg Data Viewer</h1>
+  <body x-data="{ urlParams: new URLSearchParams(window.location.search) }">
+    <div x-show="!urlParams.has('videogameId') && !urlParams.has('characterId')">
+      <div class="p-8 bg-slate-800 flex flex-col gap-8">
+        <div>
+          <h1 class="text-4xl text-slate-200 font-bold">Start.gg Data Viewer</h1>
+        </div>
+        <div>
+          <h2 class="text-2xl text-slate-200 font-bold">Videogames</h2>
+          <div id="videogames-wrapper"></div>
+        </div>
+        <div>
+          <h2 class="text-2xl text-slate-200 font-bold">Characters</h2>
+          <div id="characters-wrapper"></div>
+        </div>
+      </div>
     </div>
-    <div>
-      <h2 class="text-2xl font-bold">Videogames</h2>
-      <div id="videogames-wrapper"></div>
+
+    <!-- 
+      Videogame profile page
+     -->
+
+    <div id="page-videogame" x-show="urlParams.has('videogameId') && !urlParams.has('characterId')">
+      <div
+        x-data="{ 
+          async getMatchingVideogame() { 
+            return (Object.values(await (await fetch('./data/videogames.json')).json()).find(vg => vg.id === parseInt(urlParams.get('videogameId')))) 
+          }
+        }"
+      >
+        <div class="p-8 bg-slate-800 flex flex-col gap-8">
+          <div class="flex gap-4">
+            <a href="/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-arrow-left"
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#e2e8f0"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 12l14 0" />
+                <path d="M5 12l6 6" />
+                <path d="M5 12l6 -6" />
+              </svg>
+            </a>
+            <h2
+              x-text="(await getMatchingVideogame()).displayName"
+              class="text-4xl text-slate-200 font-bold"
+            ></h2>
+          </div>
+          <div class="p-4 bg-slate-200 rounded-md flex flex-col">
+            <template x-for="(vgDataValue, vgDataIndex) in await getMatchingVideogame()">
+              <div class="flex gap-4" x-show="!['images', 'expand'].includes(vgDataIndex)">
+                <span class="text-lg font-bold" x-text="vgDataIndex"></span>
+                <span x-text="String(vgDataValue)"></span>
+              </div>
+            </template>
+          </div>
+          <h3 class="text-2xl text-slate-200 font-bold">Images</h3>
+          <div class="flex flex-wrap gap-8">
+            <template x-for="imageObject in (await getMatchingVideogame()).images">
+              <div class="p-4 flex-1 bg-slate-200 rounded-md flex flex-col">
+                <img class="pb-4 "x-bind:src="imageObject.url" alt="">
+                <template x-for="(imgValue, imgIndex) in imageObject">
+                  <div class="flex gap-4" x-show="!['url'].includes(imgIndex)">
+                    <span class="text-lg font-bold" x-text="imgIndex"></span>
+                    <span x-text="String(imgValue)"></span>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-      <h2 class="text-2xl font-bold">Characters</h2>
-      <div id="characters-wrapper"></div>
+
+    <!-- 
+      Character profile page
+     -->
+
+    <div id="page-character" x-show="urlParams.has('characterId') && !urlParams.has('videogameId')">
+      <div
+        x-data="{ 
+          async getMatchingCharacter() { 
+            return (Object.values(await (await fetch('./data/characters.json')).json()).find(vg => vg.id === parseInt(urlParams.get('characterId')))) 
+          }
+        }"
+      >
+        <div class="p-8 bg-slate-800 flex flex-col gap-8">
+          <div class="flex gap-4">
+            <a href="/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-arrow-left"
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#e2e8f0"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 12l14 0" />
+                <path d="M5 12l6 6" />
+                <path d="M5 12l6 -6" />
+              </svg>
+            </a>
+            <h2
+              x-text="(await getMatchingCharacter()).name"
+              class="text-4xl text-slate-200 font-bold"
+            ></h2>
+          </div>
+          <div class="p-4 bg-slate-200 rounded-md flex flex-col">
+            <template x-for="(charDataValue, charDataIndex) in await getMatchingCharacter()">
+              <div class="flex gap-4" x-show="!['images', 'expand'].includes(charDataIndex)">
+                <span class="text-lg font-bold" x-text="charDataIndex"></span>
+                <span x-text="String(charDataValue)"></span>
+              </div>
+            </template>
+          </div>
+          <h3 class="text-2xl text-slate-200 font-bold">Images</h3>
+          <div class="flex flex-wrap gap-8">
+            <template x-for="imageObject in (await getMatchingCharacter()).images">
+              <div class="p-4 flex-1 bg-slate-200 rounded-md flex flex-col">
+                <img class="pb-4 "x-bind:src="imageObject.url" alt="">
+                <template x-for="(imgValue, imgIndex) in imageObject">
+                  <div class="flex gap-4" x-show="!['url'].includes(imgIndex)">
+                    <span class="text-lg font-bold" x-text="imgIndex"></span>
+                    <span x-text="String(imgValue)"></span>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
   <script type="module">
     import { Grid, html } from 'https://unpkg.com/gridjs?module';
+    const videogames = await (await fetch('./data/videogames.json')).json();
+    const characters = (await (await fetch('./data/characters.json')).json())
+      .map((character) => {
+        const videogameMatch = videogames.filter((videogame) => videogame.id === character.videogameId);
+        character.videogameName =
+          videogameMatch[0] && videogameMatch[0].name ? videogameMatch[0].name : undefined;
+        return character;
+      })
+      .filter((character) => character.videogameName);
 
-    let videogames = await (await fetch('./data/videogames.json')).json();
-    let characters = await (await fetch('./data/characters.json')).json();
-
-    characters = characters.map((character) => {
-      const videogameMatch = videogames.filter((videogame) => videogame.id === character.videogameId);
-      character.videogameName = videogameMatch[0] && videogameMatch[0].name ? videogameMatch[0].name : undefined;
-      delete character.videogameId;
-      return character;
-    }).filter(character => character.videogameName)
-
-    function extractPropertyValues(objects, propertyNames) {
-      return objects.map((obj) => {
+    const extractPropertyValues = (objects, propertyNames) =>
+      objects.map((obj) => {
         const values = [];
         propertyNames.forEach((prop) => {
           values.push(obj[prop]);
         });
         return values;
       });
-    }
 
     const gridConfig = {
       search: true,
       sort: true,
       autoWidth: false,
       className: {
-        tbody: 'bg-slate-200',
+        td: 'bg-slate-200',
         th: 'bg-slate-100',
         search: 'bg-slate-100',
         paginationButton: 'bg-slate-100',
         paginationButtonNext: 'bg-slate-100',
-        paginationButtonCurrent: 'bg-slate-100',
+        paginationButtonCurrent: 'bg-slate-200',
         paginationButtonPrev: 'bg-slate-100',
+        paginationSummary: 'text-slate-50',
       },
       pagination: {
         limit: 8,
       },
-    }
+    };
 
-    const videogameHeaders = [
-      {name: 'id', width: '100px'},
-      {name: 'abbrev'},
-      {name: 'name'},
-    ];
+    const videogameHeaders = [{ name: 'id', width: '100px' }, { name: 'abbrev' }, { name: 'name' }];
 
     const characterHeaders = [
-      {name: 'id', width: '100px'},
-      {name: 'name'},
-      {name: 'videogameName'},
+      { name: 'id', width: '100px' },
+      { name: 'name' },
+      { name: 'videogameId', width: '200px' },
+      { name: 'videogameName' },
     ];
 
-    new Grid({
+    await new Grid({
       columns: videogameHeaders,
-      data: extractPropertyValues(videogames, videogameHeaders.map(header => header.name)),
-      ...gridConfig
-    }).render(document.getElementById('videogames-wrapper'));
+      data: extractPropertyValues(
+        videogames,
+        videogameHeaders.map((header) => header.name)
+      ),
+      ...gridConfig,
+    })
+      .render(document.getElementById('videogames-wrapper'))
+      .on('rowClick', (_p, e) => window.location.replace(`?videogameId=${e.cells[0].data}`));
 
-    new Grid({
+    await new Grid({
       columns: characterHeaders,
-      data: extractPropertyValues(characters, characterHeaders.map(header => header.name)),
-      ...gridConfig
-    }).render(document.getElementById('characters-wrapper'));
+      data: extractPropertyValues(
+        characters,
+        characterHeaders.map((header) => header.name)
+      ),
+      ...gridConfig,
+    })
+      .render(document.getElementById('characters-wrapper'))
+      .on('rowClick', (_p, e) => window.location.replace(`?characterId=${e.cells[0].data}`));
   </script>
 </html>

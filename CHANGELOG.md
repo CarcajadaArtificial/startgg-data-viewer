@@ -1,5 +1,5 @@
 # Changelog
 
-## v0.0.4
+## v0.0.5
 
-- Added a customized version of the official mermaid theme.
+- Added videogame and character profile pages.
