@@ -1,6 +1,5 @@
 # Changelog
 
-## v0.0.1
+## v0.0.2
 
-- Added `json` files that contain start.gg's list of videogames and characters.
-- Added a page for displaying tables with videogame and character data.
+- Moved project out of the `src/` directory for github pages.
