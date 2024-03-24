@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start.gg Data Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+  </head>
+  <body class="p-8 flex flex-col gap-8">
+    <div>
+      <h2 class="text-2xl font-bold">Videogames</h2>
+      <div id="videogames-wrapper"></div>
+    </div>
+    <div>
+      <h2 class="text-2xl font-bold">Characters</h2>
+      <div id="characters-wrapper"></div>
+    </div>
+  </body>
+  <script type="module">
+    import { Grid, html } from 'https://unpkg.com/gridjs?module';
+    import videogames from './data/videogames.json' with { type: 'json' };
+    import characters from './data/characters.json' with { type: 'json' };
+
+    let filteredCharacters = characters.map((character) => {
+      const videogameMatch = videogames.filter((videogame) => videogame.id === character.videogameId);
+      character.videogameName = videogameMatch[0] && videogameMatch[0].name ? videogameMatch[0].name : undefined;
+      delete character.videogameId;
+      return character;
+    }).filter(character => character.videogameName)
+
+    function extractPropertyValues(objects, propertyNames) {
+      return objects.map((obj) => {
+        const values = [];
+        propertyNames.forEach((prop) => {
+          values.push(obj[prop]);
+        });
+        return values;
+      });
+    }
+
+    const gridConfig = {
+      search: true,
+      sort: true,
+      autoWidth: false,
+      pagination: {
+        limit: 8,
+      },
+    }
+
+    const videogameHeaders = [
+      {name: 'id', width: '100px'},
+      {name: 'abbrev'},
+      {name: 'name'},
+    ];
+
+    const characterHeaders = [
+      {name: 'id', width: '100px'},
+      {name: 'name'},
+      {name: 'videogameName'},
+    ];
+
+    new Grid({
+      columns: videogameHeaders,
+      data: extractPropertyValues(videogames, videogameHeaders.map(header => header.name)),
+      ...gridConfig
+    }).render(document.getElementById('videogames-wrapper'));
+
+    new Grid({
+      columns: characterHeaders,
+      data: extractPropertyValues(filteredCharacters, characterHeaders.map(header => header.name)),
+      ...gridConfig
+    }).render(document.getElementById('characters-wrapper'));
+  </script>
+</html>
