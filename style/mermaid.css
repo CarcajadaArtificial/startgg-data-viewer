@@ -14,6 +14,8 @@ tr.gridjs-tr:hover td.gridjs-td,
 th.gridjs-th:hover,
 .gridjs-footer button:not(:disabled):hover {
   opacity: 0.85;
+  cursor: pointer;
+  text-decoration: underline;
 }
 .gridjs-temp {
   position: relative;

@@ -14,24 +14,37 @@
         <div>
           <h1 class="text-4xl text-slate-200 font-bold pb-4">Start.gg Data Viewer</h1>
           <div class="text-slate-50 w-96 flex flex-col gap-2">
-            <p>Created by <a class="text-sky-300 underline" href="https://github.com/CarcajadaArtificial">Oscar Alfonso Guerrero</a></p>
+            <p>
+              Created by
+              <a class="text-sky-300 underline" href="https://github.com/CarcajadaArtificial"
+                >Oscar Alfonso Guerrero</a
+              >
+            </p>
             <p>
               Hello and welcome third-party startgg developer. This is a simple and useful site for
               exploring the list of videogames and characters supported. The data displayed in this site
-              are directly obtained from the 
-              <a class="text-sky-300 underline" href="https://api.start.gg/videogames">videogames api</a> and the
-              <a class="text-sky-300 underline" href="https://api.start.gg/characters">characters api</a>.
+              are directly obtained from the
+              <a class="text-sky-300 underline" href="https://api.start.gg/videogames"
+                >videogames api</a
+              >
+              and the
+              <a class="text-sky-300 underline" href="https://api.start.gg/characters">characters api</a
+              >.
             </p>
-            <code class="text-slate-500">version 0.0.8</code>
+            <code class="text-slate-500">version 0.0.9</code>
           </div>
         </div>
-        <div>
-          <h2 class="text-2xl text-slate-200 font-bold">Videogames</h2>
-          <div id="videogames-wrapper"></div>
+        <h2 class="text-2xl text-slate-200 font-bold">Videogames</h2>
+        <div class="overflow-x-auto">
+          <div style="min-width: 800px; max-width: 800px">
+            <div id="videogames-wrapper"></div>
+          </div>
         </div>
-        <div>
-          <h2 class="text-2xl text-slate-200 font-bold">Characters</h2>
-          <div id="characters-wrapper"></div>
+        <h2 class="text-2xl text-slate-200 font-bold">Characters</h2>
+        <div class="overflow-x-auto">
+          <div style="min-width: 800px; max-width: 800px">
+            <div id="characters-wrapper"></div>
+          </div>
         </div>
       </div>
     </template>
